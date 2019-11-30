@@ -1,3 +1,5 @@
+//List of all cards.
+
 let cards = [
      {
           rank: "queen",
@@ -23,6 +25,9 @@ let cards = [
 
 let cardsInPlay = [];
 let cardElement = null;
+let playerScore = 0;
+
+//Initial board setup and listening for user choice
 
 function createBoard() {
      for (let i = 0; i < cards.length; i++) {
@@ -36,6 +41,8 @@ function createBoard() {
 
 let cardId = null;
 
+//identifying user's choice assigning appropriate values to cards
+
 function flipCard() {
      cardId = this.getAttribute('data-id');
      console.log("User flipped " + cards[cardId].rank);
@@ -46,14 +53,32 @@ function flipCard() {
      checkForMatch();
 };
 
+//end of game, user results in form of pop-up and add or subtract point
+
 function checkForMatch() {
      if (cardsInPlay.length === 2){
           if (cardsInPlay[0] === cardsInPlay[1]) {
                alert("You found a match!");
+               playerScore++;
+               document.getElementsByTagName('span')[0].innerText = playerScore.toString();
           } else {
                alert("Sorry, try again.");
+               playerScore--;
+               document.getElementsByTagName('span')[0].innerText = playerScore.toString();
           }
      }
 };
 
 createBoard();
+
+//reset all values
+
+let resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', resetGame);
+
+function resetGame() {
+     document.getElementById('game-board').innerHTML = "";
+     cardsInPlay = [];
+     createBoard();
+};
+
